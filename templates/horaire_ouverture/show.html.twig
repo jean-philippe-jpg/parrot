@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HoraireOuverture{% endblock %}
+
+{% block body %}
+    <h1>HoraireOuverture</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ horaire_ouverture.id }}</td>
+            </tr>
+            <tr>
+                <th>Horaire</th>
+                <td>{{ horaire_ouverture.horaire ? horaire_ouverture.horaire|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_horaire_ouverture_index') }}">back to list</a>
+
+    <a href="{{ path('app_horaire_ouverture_edit', {'id': horaire_ouverture.id}) }}">edit</a>
+
+    {{ include('horaire_ouverture/_delete_form.html.twig') }}
+{% endblock %}
