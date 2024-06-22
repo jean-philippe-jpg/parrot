@@ -19,6 +19,9 @@ class Services
     #[ORM\Column]
     private ?int $tarif = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $carrosserie = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Services
     public function setTarif(int $tarif): static
     {
         $this->tarif = $tarif;
+
+        return $this;
+    }
+
+    public function getCarrosserie(): ?string
+    {
+        return $this->carrosserie;
+    }
+
+    public function setCarrosserie(?string $carrosserie): static
+    {
+        $this->carrosserie = $carrosserie;
 
         return $this;
     }

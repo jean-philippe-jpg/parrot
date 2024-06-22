@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 #use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VoituresRepository;
@@ -38,6 +40,29 @@ class Voitures
 
     #[ORM\Column]
     private ?int $prix = null;
+
+    
+
+    /**
+     * @var Collection<int, Contact>
+     */
+    #[ORM\ManyToMany(targetEntity: Contact::class, mappedBy: 'annonces')]
+    private Collection $contacts;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $caracteristique = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $equipements = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $options = null;
+
+    public function __construct()
+    {
+        
+        $this->contacts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,4 +163,69 @@ class Voitures
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): static
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->addAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): static
+    {
+        if ($this->contacts->removeElement($contact)) {
+            $contact->removeAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function getCaracteristique(): ?string
+    {
+        return $this->caracteristique;
+    }
+
+    public function setCaracteristique(?string $caracteristique): static
+    {
+        $this->caracteristique = $caracteristique;
+
+        return $this;
+    }
+
+    public function getEquipements(): ?string
+    {
+        return $this->equipements;
+    }
+
+    public function setEquipements(?string $equipements): static
+    {
+        $this->equipements = $equipements;
+
+        return $this;
+    }
+
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    public function setOptions(?string $options): static
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    
 }
